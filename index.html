@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 3</title>
+
+    <style>
+
+        body{
+            height: 100vh;
+            background: #0F0F0F;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .light-panel{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px;
+            height: 20%;
+            width: 80%;
+            gap: 20px;
+            border: red 3px solid;
+        }
+
+        .light{
+            width: 15%;
+            height: 50%;
+            background-color: aliceblue;
+        }
+
+
+        .button-panel{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px;
+            height: 30%;
+            width: 80%;
+            gap: 20px;
+        }
+
+        button{
+            height: 20%;
+            width: 15%;
+            background: blueviolet;
+        }
+
+        button:hover{
+
+        }
+
+    </style>
+
+</head>
+<body>
+
+<section class="light-panel">
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+</section>
+
+<audio id="beep" src="assets/audio/knightrider.mp3"></audio>
+
+
+<section class="button-panel">
+    <button id="startBtn">Start</button>
+    <button id="stopBtn">Stop</button>
+</section>
+
+
+<script src="assets/lib/jquery-3.7.1.min.js"></script>
+
+<script>
+
+    const light_count = 6;
+    let current_light = -1;
+    let direction = "RIGHT";
+    let intervalId = null;
+
+    const kittSound = document.getElementById("beep");
+
+    updateLight = () => {
+
+        kittSound.play();
+        if (direction === "RIGHT"){
+            current_light++;
+            $(".light").css("background", "aliceblue");
+            $(".light").eq(current_light-1).css("background",  "pink");
+            $(".light").eq(current_light).css("background",  "red");
+
+            if (current_light == light_count-1){
+                direction = "LEFT";
+            }
+
+        }else {
+            current_light--;
+            $(".light").css("background", "aliceblue");
+            $(".light").eq(current_light+1).css("background",  "pink");
+            $(".light").eq(current_light).css("background",  "red");
+
+            if (current_light == 0){
+                direction = "RIGHT";
+            }
+        }
+    }
+
+    
+    $("#startBtn").on('click', function (){
+        intervalId = setInterval(updateLight, 100);
+    });
+
+
+    $("#stopBtn").on('click', function (){
+        clearInterval(intervalId)
+        kittSound.pause();
+        kittSound.currentTime = 0;
+    });
+
+</script>
+
+</body>
+</html>
